@@ -52,9 +52,11 @@ def parse_variant_compat(variant_path: pathlib.Path, info, log_output):
     return (sid, ch, gid, variances)
 
 def process_variations_compat(args):
-    output_root, data, log_output = args
+    output_root, data, log_output_path = args
+    log_output = open(log_output_path, 'a')
     # Create a temp file and copy the contents of
-    sid, cid, gid, ranges, variations, record = data
+    sid, cid, gid, ranges, variations, record_path = data
+    record = Fasta(record_path)[cid]
     temp_file = output_root / f"{cid}_{sid}_{gid}_temp.fa"
     with open(temp_file, 'w') as f:
         f.write(f">{record.name}\n")

@@ -5,6 +5,7 @@
 import argparse
 import errno
 from io import TextIOWrapper
+from multiprocessing import Pool
 import os
 import pathlib
 
@@ -15,9 +16,9 @@ from pyfaidx import Fasta, FastaRecord, MutableFastaRecord
 
 from tqdm import tqdm
 
-from argparse_helpers import ValidFolder, ValidFile, ValidOutput
-from metadata_types import Cid, Gid, Sid
-from parallellisation import parse_variant_compat, process_variations_compat
+from ava.argparse_helpers import ValidFolder, ValidFile, ValidOutput
+from ava.metadata_types import Cid, Gid, Sid
+from ava.parallellisation import parse_variant_compat, process_variations_compat
 
 def load_sequences(sequence_paths: List[pathlib.Path]) -> Dict[FastaRecord, Fasta]:
     result = {}
@@ -280,15 +281,24 @@ def main():
                                    ".\n")
                     continue
 
-                operations.append((sid, cid, gid, cfg[cid][gid], gid_data, chromosomes[cid][cid]))
+                operations.append((sid, cid, gid, cfg[cid][gid], gid_data,
+                                   pathlib.Path(chromosomes[cid][cid]._fa.filename)))
 
     if not len(operations):
         log_file.write(f"Insufficient data. No output files could be created\n")
+    log_file.close()
 
     # Process the variations
-    for data in tqdm(operations, desc="Preparing output files:"):
-        # sid, cid, gid, ranges, variations, record = data
-        process_variations_compat((output_path, data, log_file))
+    with Pool() as pool:
+        args = [(output_path, data, log_file_path) for data in operations]
+        # it = pool.map(process_variations_compat, args)
+        # for data in tqdm(operations, desc="Preparing output files:"):
+            # sid, cid, gid, ranges, variations, record = data
+            # process_variations((output_path, args, log_file))
+        for _ in tqdm(pool.imap_unordered(process_variations_compat, args), total=len(args)):
+            pass
+        # for item in tqdm(it, desc="Preparing output files:"):
+        #     pass
 
     # Clean up cache files
     files_to_remove: List[pathlib.Path] = []
@@ -303,7 +313,6 @@ def main():
         file.unlink()
 
     print(f"Output to {output_path} complete. Check log at {log_file_path} for more details")
-    log_file.close()
 
 if __name__ == "__main__":
     main()
