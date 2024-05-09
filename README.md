@@ -83,7 +83,7 @@ Python genomics helper tools
 > Every time you want to run the script, you will need to use the full path to the script. You can find this by eiher:
 > * running this in your console
 >   ```
->   python -c "from pip._internal.commands.show import search_packages_info as info;import pathlib;data=next(info(['aght']));print(str((pathlib.Path(data['location']) / data['files'][0]).absolute()))"
+>   python -c "from pip._internal.commands.show import search_packages_info as info;import pathlib;data=next(info(['aght']));print(str((pathlib.Path(data.location) / data.files[0]).absolute())) if hasattr(data, 'location') else print(str((pathlib.Path(data['location']) / data['files'][0]).absolute()))"
 >   ```
 >   which will print out the location of `ava.exe` e.g.
 >   `c:\users\{Aeyohan}\appdata\roaming\python\python39\site-packages\..\Scripts\ava.exe`
