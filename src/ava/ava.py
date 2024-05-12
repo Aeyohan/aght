@@ -15,10 +15,15 @@ from typing import List, Dict, Set, Tuple
 from pyfaidx import Fasta, FastaRecord, MutableFastaRecord
 
 from tqdm import tqdm
-
-from ava.argparse_helpers import ValidFolder, ValidFile, ValidOutput
-from ava.metadata_types import Cid, Gid, Sid
-from ava.parallellisation import parse_variant_compat, process_variations_compat
+try:
+    from ava.argparse_helpers import ValidFolder, ValidFile, ValidOutput
+    from ava.metadata_types import Cid, Gid, Sid
+    from ava.parallellisation import parse_variant_compat, process_variations_compat
+except:
+    # allow imports when run in place
+    from argparse_helpers import ValidFolder, ValidFile, ValidOutput
+    from metadata_types import Cid, Gid, Sid
+    from parallellisation import parse_variant_compat, process_variations_compat
 
 def load_sequences(sequence_paths: List[pathlib.Path]) -> Dict[FastaRecord, Fasta]:
     result = {}
