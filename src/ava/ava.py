@@ -198,9 +198,6 @@ def process_variations(args: Tuple[pathlib.Path, Tuple[Sid, Cid, Gid, List[range
 
             raise e
 
-
-
-
     # Same subsections of each file
     # Unclear what to do with ranges here - For now assume to just concatenate everything
     ext_name = f"{cid}_{sid}_{gid}"
