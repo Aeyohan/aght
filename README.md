@@ -123,6 +123,13 @@ Python genomics helper tools
 > C:\Users\Aeyohan>
 > ```
 
+# Updating?
+since this is still in development (and not on pypi):
+1. Run the following command to uninstall aght
+  `python -m pip uninstall aght`
+2. Run the following command to install aght
+  `python -m pip install git+https://github.com/Aeyohan/aght.git`
+
 # Usage
 ## Allele Variance Applicator (ava)
 To run the ava script, run the command `ava` (or the full path to the `ava.exe` as per above)
