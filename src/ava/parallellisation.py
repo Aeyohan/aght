@@ -8,6 +8,8 @@ def parse_variant_compat(variant_path: pathlib.Path, info, log_output):
     data = pandas.read_csv(str(variant_path.absolute()))
 
     if not len(data):
+        log_output.write(f"[WARN] While parsing {str(variant_path.absolute())}: File has no entries. Unable to map "
+                         f"variants to a known chromosomes detected in same file. Skipping.\n")
         return None
 
     # Get the first value

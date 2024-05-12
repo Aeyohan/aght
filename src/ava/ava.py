@@ -65,6 +65,8 @@ def parse_variant(variant_path: pathlib.Path, info: dict[Cid, Set[Gid]], log_out
     data = pandas.read_csv(str(variant_path.absolute()))
 
     if not len(data):
+        log_output.write(f"[WARN] While parsing {str(variant_path.absolute())}: File has no entries. Unable to map "
+                         f"variants to a known chromosomes detected in same file. Skipping.\n")
         return None
 
     # Get the first value
