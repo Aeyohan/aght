@@ -113,9 +113,10 @@ def process_variations_compat(args):
 
     # Same subsections of each file
     # Unclear what to do with ranges here - For now assume to just concatenate everything
-    output_file = output_root / f"{cid}_{sid}_{gid}.fa"
+    ext_name = f"{cid}_{sid}_{gid}"
+    output_file = output_root / f"{ext_name}.fa"
     with open(output_file, 'w') as f:
-        f.write(f">{record.name}\n")
+        f.write(f">{ext_name}\n")
         temp = ""
         for subset in ranges:
             for i in range(subset.start, subset.stop):
