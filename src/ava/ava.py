@@ -92,13 +92,13 @@ def parse_variant(variant_path: pathlib.Path, info: dict[Cid, Set[Gid]], log_out
 
     for cid, region, ref, allele in zip(data["Chromosome"], data["Region"], data["Reference"], data["Allele"]):
         if (cid != ch):
-            log_output.write(f"[WARN] While processing {str(variant_path.absolute())}: multiple chromosomes detected in"
-                             f" same file. This will cause unexpected behaviour")
+            log_output.write(f"[WARN] While parsing {str(variant_path.absolute())}: multiple chromosomes detected in"
+                             f" same file. This will cause unexpected behaviour\n")
 
         # Check for an edge case for two regions with different alleles
         if prev_region == region and allele != ref and prev_allele != ref:
             log_output.write(f"[WARN] Unexpected event. Found an instance in {str(variant_path.absolute())} where "
-                             f"neither allele - ({allele} and {prev_allele}) did not match the reference: {ref} at position {region}")
+                             f"neither allele - ({allele} and {prev_allele}) did not match the reference: {ref} at position {region}\n")
 
         prev_region = region
         prev_allele = allele
@@ -133,7 +133,7 @@ def load_variants(variant_paths: List[pathlib.Path], cfg_file: pathlib.Path, cfg
             result[sid][cid] = {}
 
         if (gid in result[sid]):
-            log_output.write(f"[WARN], variant files for different genes, were for the same gene {gid} from sample {sid}")
+            log_output.write(f"[WARN], variant files for different genes, were for the same gene {gid} from sample {sid}\n")
 
         result[sid][cid][gid] = ranges
 
@@ -160,7 +160,7 @@ def process_variations(args: Tuple[pathlib.Path, Tuple[Sid, Cid, Gid, List[range
     for index, [current, new] in variations.items():
         if (mutable[index] != current):
             log_output.write(f"[WARN] while processing varations, position {index + 1} was expecting {current}, but "
-                             f"found {mutable[index]}. Skipping")
+                             f"found {mutable[index]}. Skipping\n")
 
         try:
             mutable[index] = new

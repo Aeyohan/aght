@@ -33,12 +33,12 @@ def parse_variant_compat(variant_path: pathlib.Path, info, log_output):
     for cid, region, ref, allele in zip(data["Chromosome"], data["Region"], data["Reference"], data["Allele"]):
         if (cid != ch):
             log_output.write(f"[WARN] While processing {str(variant_path.absolute())}: multiple chromosomes detected in"
-                             f" same file. This will cause unexpected behaviour")
+                             f" same file. This will cause unexpected behaviour\n")
 
         # Check for an edge case for two regions with different alleles
         if prev_region == region and allele != ref and prev_allele != ref:
             log_output.write(f"[WARN] Unexpected event. Found an instance in {str(variant_path.absolute())} where "
-                             f"neither allele - ({allele} and {prev_allele}) did not match the reference: {ref} at position {region}")
+                             f"neither allele - ({allele} and {prev_allele}) did not match the reference: {ref} at position {region}\n")
 
         prev_region = region
         prev_allele = allele
@@ -73,7 +73,7 @@ def process_variations_compat(args):
     for index, [current, new] in variations.items():
         if (mutable[index] != current):
             log_output.write(f"[WARN] while processing varations, position {index + 1} was expecting {current}, but "
-                             f"found {mutable[index]}. Skipping")
+                             f"found {mutable[index]}. Skipping\n")
 
         try:
             mutable[index] = new
