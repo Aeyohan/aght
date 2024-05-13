@@ -207,7 +207,7 @@ def process_variations(args: Tuple[pathlib.Path, Tuple[Sid, Cid, Gid, List[range
         temp = ""
         for subset in ranges:
             for i in range(subset.start, subset.stop):
-                temp += str(record[i])
+                temp += str(mutable[i])
                 if len(temp) % 61 == 60:
                     #60th character, + new lines before it
                     temp += "\n"
