@@ -8,7 +8,7 @@ os.chdir(SCRIPT_DIR)
 
 setuptools.setup(
     name='aght',
-    version='0.0.1',
+    version='0.0.2',
     author='Aeyohan Furtado',
     author_email='aeyohanf@gmail.com',
     description='Genomics helper python tools',
