@@ -22,7 +22,9 @@ setuptools.setup(
     ],
     python_requires='>=3.8',
     entry_points={'console_scripts': (
-        'ava = ava.ava:main'
-        )},
+        'ava = ava.ava:main',
+        'pre_ava = ava.pre_ava:main',
+        'post_ava = ava.post_ava:main'
+    )},
     zip_safe=False
 )
