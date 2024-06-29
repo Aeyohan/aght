@@ -158,3 +158,41 @@ parallelise the other parts now).
 Somehow uses basically no ram (70mb per process, so 1.2GB) Probably thanks to
 [pyfaidx](https://pypi.org/project/pyfaidx/) which massively optimises memory and random access for fasta files via an
 index file.
+
+## ava extras
+
+### preprocessor (optional)
+Used to remove extra strings from the variant input files. Ideally run this on a copy of your files in case something goes wrong
+* `-i/--input`: path to folder with variant files. This folder should contain your variant csv files (.csv).
+Works [recursively](https://www.google.com/search?q=recursion).
+* `-n/--name` **(optional)**: remove this from the file name. By default this is _" (Variants, filtered)"_. Leave this
+  argument out if you are using the default name.
+e.g.
+`pre_ava -i "03 CDS CSV file"`
+`pre_ava -i "03 CDS CSV file" -n " Remove This String"`
+
+example out
+```
+100%|█████████████████████████████████████| 30/30 [00:00<00:00, 30109.86it/s]
+Renamed 30 files
+```
+
+
+### postprocessor (optional)
+Used to get a different output folder structure
+* `-i/--input`: path to ava's output folder. This contains fasta files with variants applied.
+* `-o/--output`: path to output folder. Output fasta files will go here. (This should not be the same as the input)
+
+e.g.
+`post_ava -i snip_output -o snip_output_restructure`
+
+example out
+```
+100%|█████████████████████████████████████| 29/29 [00:00<00:00, 1094.97it/s]
+Renamed 29 files with 0 potential issues.
+```
+
+> Note: if there are any issues detected, they will be in the output log e.g.
+> ```
+> Renamed 29 files with 2 potential issues. See [path to file.log]  for more details
+>```
